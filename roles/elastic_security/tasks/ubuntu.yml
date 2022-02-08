@@ -91,10 +91,14 @@
 - name: Storing Password in keyStore
   become: true
   command: ./bin/elasticsearch-keystore add-file xpack.security.transport.ssl.keystore.secure_password /tmp/password.txt
+  args:
+    chdir: /usr/share/elasticsearch
 
 - name: Storing Password in Trust Store
   become: true
   command: ./bin/elasticsearch-keystore add-file xpack.security.transport.ssl.truststore.secure_password /tmp/password.txt
+  args:
+    chdir: /usr/share/elasticsearch
 
 - name: Creating Password in a file
   become: true
