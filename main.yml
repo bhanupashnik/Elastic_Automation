@@ -24,4 +24,4 @@
 
   roles:
     # This the roles where all the tasks mentioned for the installation. #
-    - elastic_Installation
+    - elastic_security
