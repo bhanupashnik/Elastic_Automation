@@ -77,7 +77,7 @@
 
 - name: Creating Certificates
   become: true
-  command: ./bin/elasticsearch-certutil ca --pass password --out elastic-stack-ca.p12
+  command: ./bin/elasticsearch-certutil cert --pass password --out elastic-stack-ca.p12
   args:
     chdir: /usr/share/elasticsearch
 
