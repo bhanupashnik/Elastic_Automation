@@ -39,6 +39,13 @@
     src: elasticsearch.yml.j2
     dest: '/etc/elasticsearch/elasticsearch.yml'
 
+- name: Adding parameter to config
+  become: true
+  lineinfile:
+    path: /etc/sysconfig/elasticsearch
+    line: 'ES_JAVA_OPTS="-Xms4g -Xmx4g" 
+          MAX_LOCKED_MEMORY=unlimited'
+
 - name: Enabling the elastic service
   become: true
   command: "systemctl enable elasticsearch"
