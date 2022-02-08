@@ -8,3 +8,9 @@ network.host: {{source}}
 http.port: {{port}}
 discovery.seed_hosts: [{{source}}]
 cluster.initial_master_nodes: [{{ node_name }}]
+xpack.security.enabled: true
+xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.verification_mode: certificate
+xpack.security.transport.ssl.client_authentication: required
+xpack.security.transport.ssl.keystore.path: certs/elastic-stack-ca.p12
+xpack.security.transport.ssl.truststore.path: certs/elastic-stack-ca.p12

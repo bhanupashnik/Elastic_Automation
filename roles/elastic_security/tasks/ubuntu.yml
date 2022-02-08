@@ -55,4 +55,59 @@
   become: true
   command: "systemctl restart elasticsearch"
 
+- include_tasks: kibana.yml
 
+- name: Stopping the elastic service
+  become: true
+  command: "systemctl stop elasticsearch"
+
+- name: Stopping the elastic service
+  become: true
+  command: "systemctl stop kibana"
+
+- name: Changing the elastic config file
+  become: true
+  template:
+    src: elasticsearch_security.yml.j2
+    dest: '/etc/elasticsearch/elasticsearch.yml'
+
+- name: Create data directory
+  become: true
+  file:
+    path: "/etc/elasticsearch/certs"
+    state: directory
+
+- name: Creating Certificates
+  become: true
+  command: ./bin/elasticsearch-certutil ca --pass password --out elastic-stack-ca.p12
+  args:
+    chdir: /usr/share/elasticsearch
+
+- name: Creating Password in a file
+  become: true
+  copy:
+    dest: "/tmp/password.txt"
+    content: |
+      password 
+
+- name: Storing Password in keyStore
+  become: true
+  command: ./bin/elasticsearch-keystore add-file xpack.security.transport.ssl.keystore.secure_password /tmp/password.txt
+
+- name: Storing Password in Trust Store
+  become: true
+  command: ./bin/elasticsearch-keystore add-file xpack.security.transport.ssl.truststore.secure_password /tmp/password.txt
+
+- name: Creating Password in a file
+  become: true
+  copy:
+    src: /usr/share/elasticsearch/elastic-stack-ca.p12
+    dest: /etc/elasticsearch/certs/
+
+- name: Restarting the elastic service
+  become: true
+  command: "systemctl restart elasticsearch"
+
+- name: Restarting the kibana service
+  become: true
+  command: "systemctl restart kibana"
