@@ -77,35 +77,20 @@
 
 - name: Creating Certificates
   become: true
-  command: ./bin/elasticsearch-certutil ca --pass password --out elastic-stack-ca1.p12
+  command: ./bin/elasticsearch-certutil ca --pass password --out elastic-stack-ca.p12
   args:
     chdir: /usr/share/elasticsearch
 
-- name: Creating Password in a file
-  become: true
-  copy:
-    dest: "/tmp/password.txt"
-    content: |
-      password 
-
-- name: Storing Password in keyStore
-  become: true
-  command: ./bin/elasticsearch-keystore add-file xpack.security.transport.ssl.keystore.secure_password /tmp/password.txt
-  args:
-    chdir: /usr/share/elasticsearch
-
-- name: Storing Password in Trust Store
-  become: true
-  command: ./bin/elasticsearch-keystore add-file xpack.security.transport.ssl.truststore.secure_password /tmp/password.txt
-  args:
-    chdir: /usr/share/elasticsearch
 
 - name: Creating Password in a file
   become: true
   copy:
     src: /usr/share/elasticsearch/elastic-stack-ca1.p12
     dest: /etc/elasticsearch/certs/
-    mode: 0644
+
+- name: Change permissions
+  become: true
+  command: chmod 644 /usr/share/elasticsearch/elastic-stack-ca.p12
 
 - name: Enabling the elastic service
   become: true
