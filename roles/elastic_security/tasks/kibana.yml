@@ -1,0 +1,27 @@
+---
+- name: Download the Kibana File
+  become: true
+  get_url:
+    url: https://artifacts.elastic.co/downloads/kibana/kibana-{{ elastic_version }}-amd64.deb
+    dest: /tmp
+    mode: 0440
+  when: elastic_flavor is defined and elastic_flavor == "pgdg"
+
+- name: Installing Kibana 
+  become: true
+  apt:
+    deb: /tmp/kibana-{{ elastic_version }}-amd64.deb
+
+- name: Update apt-get repo and cache
+  become: true
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+
+- name: Changing the elastic config file
+  become: true
+  template:
+    src: kibana.yml.j2
+    dest: '/etc/kibana/kibana.yml'
+
+
+

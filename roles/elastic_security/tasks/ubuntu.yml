@@ -53,22 +53,6 @@
     line: 'LimitMEMLOCK=infinity'
     insertafter: LimitFSIZE=infinity
   
-- name: Enabling the elastic service
-  become: true
-  command: "systemctl enable elasticsearch"
-
-- name: Starting the elastic service
-  become: true
-  command: "systemctl start elasticsearch"
-
-- name: Status the elastic service
-  become: true
-  command: "systemctl status elasticsearch"
-
-- name: Restarting the elastic service
-  become: true
-  command: "systemctl restart elasticsearch"
-
 - include_tasks: kibana.yml
 
 - name: Stopping the elastic service
@@ -119,10 +103,34 @@
     dest: /etc/elasticsearch/certs/
     mode: 0644
 
+- name: Enabling the elastic service
+  become: true
+  command: "systemctl enable elasticsearch"
+
+- name: Starting the elastic service
+  become: true
+  command: "systemctl start elasticsearch"
+
+- name: Status the elastic service
+  become: true
+  command: "systemctl status elasticsearch"
+
 - name: Restarting the elastic service
   become: true
   command: "systemctl restart elasticsearch"
 
-- name: Restarting the kibana service
+- name: Enabling the elastic service
+  become: true
+  command: "systemctl enable kibana"
+
+- name: Starting the elastic service
+  become: true
+  command: "systemctl start kibana"
+
+- name: Status the elastic service
+  become: true
+  command: "systemctl status kibana"
+
+- name: Restarting the elastic service
   become: true
   command: "systemctl restart kibana"
