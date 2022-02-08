@@ -39,12 +39,20 @@
     src: elasticsearch.yml.j2
     dest: '/etc/elasticsearch/elasticsearch.yml'
 
+
 - name: Adding parameter to config
   become: true
   lineinfile:
-    path: /etc/sysconfig/elasticsearch
-    line: 'ES_JAVA_OPTS="-Xms4g -Xmx4g" 
-          MAX_LOCKED_MEMORY=unlimited'
+    path: /etc/security/limits.conf
+    line: 'elasticsearch soft memlock unlimited
+           elasticsearch hard memlock unlimited'
+
+- name: Adding parameter to config
+  become: true
+  lineinfile:
+    path: /usr/lib/systemd/system/elasticsearch.service
+    line: 'LimitMEMLOCK=infinity'
+
 
 - name: Enabling the elastic service
   become: true
