@@ -85,7 +85,7 @@
 - name: Creating Password in a file
   become: true
   copy:
-    src: /usr/share/elasticsearch/elastic-stack-ca1.p12
+    src: /usr/share/elasticsearch/elastic-stack-ca.p12
     dest: /etc/elasticsearch/certs/
 
 - name: Change permissions
