@@ -36,7 +36,7 @@
 - name: Changing the elastic config file
   become: true
   template:
-    src: elasticsearch.yml.j2
+    src: elasticsearch_security.yml.yml.j2
     dest: '/etc/elasticsearch/elasticsearch.yml'
 
 - name: Adding parameter to config
