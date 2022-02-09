@@ -170,7 +170,7 @@
 
 - name: Setting elastic password for elastic user
   become: true
-  shell: curl -u elastic:password -XPOST "http://{{source}}:9200/_security/user/elastic/_password" -H'Content-Type:application/json' -d'{"password":"password"}'
+  shell: curl -u elastic:demopassword -XPOST "http://{{source}}:9200/_security/user/elastic/_password" -H'Content-Type:application/json' -d'{"password":"password"}'
 
 - name: Setting Kibana password for elastic user
   become: true
@@ -192,33 +192,8 @@
   become: true
   lineinfile:
     path: /etc/kibana/kibana.yml
-    line: 'elasticsearch.username: "kibana_system"'
-
-# - name: Creating Kibana keystore
-#   become: true
-#   shell: echo "y" | ./bin/kibana-keystore -x create
-#   args:
-#     chdir: /usr/share/kibana
-# - name: Checking kibana keystore is avaiable
-#   become: true
-#   shell: "./bin/kibana-keystore list | grep elasticsearch.password"
-#   args:
-#     chdir: /usr/share/kibana
-#   register: kibana_password
-
-# - name: Checking kibana keystore is avaiable
-#   become: true
-#   shell: ./bin/kibana-keystore list | grep elasticsearch.password
-#   args:
-#     chdir: /usr/share/kibana
-#   register: kibana_password
-
-- name: Setting kibana password for kibana_system
-  become: true
-  shell: echo "password" | sudo ./bin/kibana-keystore add -x "elasticsearch.password"
-  args:
-    chdir: /usr/share/kibana
-  when: kibana_password['failed']== true
+    line: 'elasticsearch.username: "kibana_system"
+           elasticsearch.password: "password"'
 
 - name: restart the Kibana service
   become: true
