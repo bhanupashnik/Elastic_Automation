@@ -17,25 +17,25 @@
   apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
 
 
-- name: Changing the elastic config file
+- name: Changing the Kibana config file
   become: true
   template:
     src: kibana.yml.j2
     dest: '/etc/kibana/kibana.yml'
 
-- name: Enabling the elastic service
+- name: Enabling the Kibana service
   become: true
   command: "systemctl enable kibana"
 
-- name: Starting the elastic service
+- name: Starting the Kibana service
   become: true
   command: "systemctl start kibana"
 
-- name: Status the elastic service
+- name: Status the Kibana service
   become: true
   command: "systemctl status kibana"
 
-- name: Restarting the elastic service
+- name: Restarting the Kibana service
   become: true
   command: "systemctl restart kibana"
 

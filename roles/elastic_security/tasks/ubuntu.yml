@@ -142,18 +142,18 @@
   become: true
   command: "systemctl restart elasticsearch"
 
-- name: Enabling the elastic service
+- name: Enabling the Kibana service
   become: true
   command: "systemctl enable kibana"
 
-- name: Starting the elastic service
+- name: Starting the Kibana service
   become: true
   command: "systemctl start kibana"
 
-- name: Status the elastic service
+- name: Status the Kibana service
   become: true
   command: "systemctl status kibana"
 
-- name: Restarting the elastic service
+- name: Restarting the Kibana service
   become: true
   command: "systemctl restart kibana"
