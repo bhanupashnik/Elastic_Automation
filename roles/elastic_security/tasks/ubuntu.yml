@@ -199,13 +199,19 @@
 #   shell: ./bin/kibana-keystore create
 #   args:
 #     chdir: /usr/share/kibana
-
 - name: Checking kibana keystore is avaiable
   become: true
-  shell: ./bin/kibana-keystore list | grep elasticsearch.password
+  shell: "./bin/kibana-keystore list | grep elasticsearch.password"
   args:
     chdir: /usr/share/kibana
   register: kibana_password
+
+# - name: Checking kibana keystore is avaiable
+#   become: true
+#   shell: ./bin/kibana-keystore list | grep elasticsearch.password
+#   args:
+#     chdir: /usr/share/kibana
+#   register: kibana_password
 
 - name: Setting kibana password for kibana_system
   become: true
