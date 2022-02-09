@@ -192,9 +192,13 @@
   become: true
   lineinfile:
     path: /etc/kibana/kibana.yml
-    line: 'elasticsearch.username: "kibana_system"
-           elasticsearch.password: "password"'
+    line: 'elasticsearch.username: "elastic"'
 
+- name: Authorizing kibana with elastic username and password
+  become: true
+  lineinfile:
+    path: /etc/kibana/kibana.yml
+    line: 'elasticsearch.password: "password"'
 - name: restart the Kibana service
   become: true
   command: "systemctl restart kibana"
