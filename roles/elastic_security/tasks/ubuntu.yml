@@ -196,7 +196,7 @@
 
 - name: Creating Kibana keystore
   become: true
-  shell: echo y | ./bin/kibana-keystore -x create
+  shell: echo "y" | ./bin/kibana-keystore -x create
   args:
     chdir: /usr/share/kibana
 - name: Checking kibana keystore is avaiable
