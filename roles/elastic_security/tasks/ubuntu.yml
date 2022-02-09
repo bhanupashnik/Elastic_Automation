@@ -202,14 +202,14 @@
 
 - name: Checking kibana keystore is avaiable
   become: true
-  shell: ./bin/elasticsearch-keystore list | grep elasticsearch.password
+  shell: ./bin/kibana-keystore list | grep elasticsearch.password
   args:
     chdir: /usr/share/kibana
   register: kibana_password
 
 - name: Setting kibana password for kibana_system
   become: true
-  shell: echo "password" | sudo ./bin/elasticsearch-keystore add -x "elasticsearch.password"
+  shell: echo "password" | sudo ./bin/kibana-keystore add -x "elasticsearch.password"
   args:
     chdir: /usr/share/kibana
   when: kibana_password['failed']== true
