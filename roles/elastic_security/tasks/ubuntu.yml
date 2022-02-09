@@ -194,17 +194,17 @@
     path: /etc/kibana/kibana.yml
     line: 'elasticsearch.username: "kibana_system"'
 
-- name: Creating Kibana keystore
-  become: true
-  shell: echo "y" | ./bin/kibana-keystore -x create
-  args:
-    chdir: /usr/share/kibana
-- name: Checking kibana keystore is avaiable
-  become: true
-  shell: "./bin/kibana-keystore list | grep elasticsearch.password"
-  args:
-    chdir: /usr/share/kibana
-  register: kibana_password
+# - name: Creating Kibana keystore
+#   become: true
+#   shell: echo "y" | ./bin/kibana-keystore -x create
+#   args:
+#     chdir: /usr/share/kibana
+# - name: Checking kibana keystore is avaiable
+#   become: true
+#   shell: "./bin/kibana-keystore list | grep elasticsearch.password"
+#   args:
+#     chdir: /usr/share/kibana
+#   register: kibana_password
 
 # - name: Checking kibana keystore is avaiable
 #   become: true
