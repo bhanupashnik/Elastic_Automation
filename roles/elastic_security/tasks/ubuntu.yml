@@ -126,19 +126,19 @@
   become: true
   command: chmod 644 /etc/elasticsearch/certs/elastic-stack-ca.p12
 
-- name: Checking bootstrap keystore is avaiable
-  become: true
-  shell: ./bin/elasticsearch-keystore list | grep bootstrap.password
-  args:
-    chdir: /usr/share/elasticsearch
-  register: bootstrap_password
+# - name: Checking bootstrap keystore is avaiable
+#   become: true
+#   shell: ./bin/elasticsearch-keystore list | grep bootstrap.password
+#   args:
+#     chdir: /usr/share/elasticsearch
+#   register: bootstrap_password
 
 - name: Setting bootstrap password for elastic user
   become: true
   shell: echo "demopassword" | sudo ./bin/elasticsearch-keystore add -x "bootstrap.password"
   args:
     chdir: /usr/share/elasticsearch
-  when: bootstrap_password['failed']== true
+  # when: bootstrap_password['failed']== true
 
 - name: Enabling the elastic service
   become: true
