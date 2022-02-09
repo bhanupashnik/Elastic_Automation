@@ -126,6 +126,12 @@
   become: true
   command: chmod 644 /etc/elasticsearch/certs/elastic-stack-ca.p12
 
+- name: Setting bootstrap password for elastic user
+  become: true
+  shell: echo "demopassword" | sudo ./bin/elasticsearch-keystore add -x "bootstrap.password"
+  args:
+    chdir: /usr/share/elasticsearch
+
 - name: Enabling the elastic service
   become: true
   command: "systemctl enable elasticsearch"
@@ -154,6 +160,25 @@
   become: true
   command: "systemctl status kibana"
 
-- name: Restarting the Kibana service
+- name: Setting elastic password for elastic user
   become: true
-  command: "systemctl restart kibana"
+  shell: curl -u elastic:password -XPOST "http://{{source}}:9200/_security/user/elastic/_password" -H'Content-Type:application/json' -d'{"password":"password"}'
+
+- name: Setting Kibana password for elastic user
+  become: true
+  shell: curl -u elastic:password -XPOST "http://{{source}}:9200/_security/user/kibana/_password" -H'Content-Type:application/json' -d'{"password":"password"}'
+
+- name: Setting Logstash password for elastic user
+  become: true
+  shell: curl -u elastic:password -XPOST "http://{{source}}:9200/_security/user/logstash_system/_password" -H'Content-Type:application/json' -d'{"password":"password"}'
+  
+- name: Setting Beats password for elastic user
+  become: true
+  shell: curl -u elastic:password -XPOST "http://{{source}}:9200/_security/user/beats_system/_password" -H'Content-Type:application/json' -d'{"password":"password"}'
+
+- name: Setting Remote monitoring password for elastic user
+  become: true
+  shell: curl -u elastic:password -XPOST "http://{{source}}:9200/_security/user/remote_monitoring_user/_password" -H'Content-Type:application/json' -d'{"password":"password"}'
+
+
+
