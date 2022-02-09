@@ -214,3 +214,6 @@
     chdir: /usr/share/kibana
   when: kibana_password['failed']== true
 
+- name: restart the Kibana service
+  become: true
+  command: "systemctl restart kibana"
