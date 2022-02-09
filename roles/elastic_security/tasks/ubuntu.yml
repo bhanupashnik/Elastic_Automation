@@ -86,7 +86,7 @@
   copy:
     dest: "/tmp/password.tmp"
     content: |
-      password 
+      password
 
 - name: Checking xpack keystore is avaiable
   become: true
@@ -94,6 +94,8 @@
   args:
     chdir: /usr/share/elasticsearch
   register: xpack_keystore
+
+- debug: msg={{xpack_keystore}}
 
 - name: Checking xpack keystore is avaiable
   become: true
