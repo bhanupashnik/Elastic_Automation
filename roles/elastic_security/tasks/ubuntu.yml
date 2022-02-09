@@ -88,17 +88,33 @@
     content: |
       password 
 
+- name: Checking xpack keystore is avaiable
+  become: true
+  shell: ./bin/elasticsearch-keystore list | grep xpack.security.transport.ssl.keystore.secure_password
+  args:
+    chdir: /usr/share/elasticsearch
+  register: xpack_keystore
+
+- name: Checking xpack keystore is avaiable
+  become: true
+  shell: ./bin/elasticsearch-keystore list | grep xpack.security.transport.ssl.truststore.secure_password
+  args:
+    chdir: /usr/share/elasticsearch
+  register: xpack_truststore
+
 - name: Storing Password in keyStore
   become: true
   shell: sudo cat /tmp/password.tmp | ./bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.keystore.secure_password 
   args:
     chdir: /usr/share/elasticsearch
+  when: xpack_keystore|failed
 
 - name: Storing Password in Trust Store
   become: true
   shell: sudo cat /tmp/password.tmp | ./bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.truststore.secure_password
   args:
     chdir: /usr/share/elasticsearch
+  when: xpack_truststore|failed
 
 - name: Moving Cert file
   become: true
