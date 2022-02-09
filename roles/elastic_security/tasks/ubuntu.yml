@@ -84,19 +84,19 @@
 - name: Creating Password in a file
   become: true
   copy:
-    dest: "/tmp/password.txt"
+    dest: "/etc/elasticsearch/password.txt"
     content: |
       password 
 
 - name: Storing Password in keyStore
   become: true
-  command: cat /tmp/password.txt | bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.keystore.secure_password 
+  command: sudo cat /etc/elasticsearch/password.txt | bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.keystore.secure_password 
   args:
     chdir: /usr/share/elasticsearch
 
 - name: Storing Password in Trust Store
   become: true
-  command: cat /tmp/password.txt | bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.truststore.secure_password
+  command: sudo cat /etc/elasticsearch/password.txt | bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.truststore.secure_password
   args:
     chdir: /usr/share/elasticsearch
 
