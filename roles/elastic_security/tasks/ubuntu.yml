@@ -90,13 +90,13 @@
 
 - name: Storing Password in keyStore
   become: true
-  command: sudo cat /tmp/password.tmp | bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.keystore.secure_password 
+  shell: sudo cat /tmp/password.tmp | bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.keystore.secure_password 
   args:
     chdir: /usr/share/elasticsearch
 
 - name: Storing Password in Trust Store
   become: true
-  command: sudo cat /tmp/password.tmp | bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.truststore.secure_password
+  shell: sudo cat /tmp/password.tmp | bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.truststore.secure_password
   args:
     chdir: /usr/share/elasticsearch
 
