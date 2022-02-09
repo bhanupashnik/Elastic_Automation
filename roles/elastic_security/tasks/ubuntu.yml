@@ -95,7 +95,7 @@
     chdir: /usr/share/elasticsearch
   register: xpack_keystore
 
-- debug: msg={{xpack_keystore}}
+- debug: msg={{xpack_keystore['failed']}}
 
 - name: Checking xpack keystore is avaiable
   become: true
@@ -109,14 +109,14 @@
   shell: sudo cat /tmp/password.tmp | ./bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.keystore.secure_password 
   args:
     chdir: /usr/share/elasticsearch
-  when: xpack_keystore|failed
+  when: xpack_keystore['failed']== true
 
 - name: Storing Password in Trust Store
   become: true
   shell: sudo cat /tmp/password.tmp | ./bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.truststore.secure_password
   args:
     chdir: /usr/share/elasticsearch
-  when: xpack_truststore|failed
+  when: xpack_truststore['failed']== true
 
 - name: Moving Cert file
   become: true
