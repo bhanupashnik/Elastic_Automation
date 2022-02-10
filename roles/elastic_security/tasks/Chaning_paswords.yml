@@ -1,0 +1,21 @@
+---
+
+- name: Setting elastic password for elastic user
+  become: true
+  shell: curl -u elastic:demopassword -XPOST "http://{{source}}:9200/_security/user/elastic/_password" -H'Content-Type:application/json' -d'{"password":"password"}'
+
+- name: Setting Kibana password for elastic user
+  become: true
+  shell: curl -u elastic:password -XPOST "http://{{source}}:9200/_security/user/kibana/_password" -H'Content-Type:application/json' -d'{"password":"password"}'
+
+- name: Setting Logstash password for elastic user
+  become: true
+  shell: curl -u elastic:password -XPOST "http://{{source}}:9200/_security/user/logstash_system/_password" -H'Content-Type:application/json' -d'{"password":"password"}'
+  
+- name: Setting Beats password for elastic user
+  become: true
+  shell: curl -u elastic:password -XPOST "http://{{source}}:9200/_security/user/beats_system/_password" -H'Content-Type:application/json' -d'{"password":"password"}'
+
+- name: Setting Remote monitoring password for elastic user
+  become: true
+  shell: curl -u elastic:password -XPOST "http://{{source}}:9200/_security/user/remote_monitoring_user/_password" -H'Content-Type:application/json' -d'{"password":"password"}'

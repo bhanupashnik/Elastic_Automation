@@ -1,0 +1,11 @@
+- name: Authorizing kibana with elastic username and password
+  become: true
+  lineinfile:
+    path: /etc/kibana/kibana.yml
+    line: 'elasticsearch.username: "elastic"'
+
+- name: Authorizing kibana with elastic username and password
+  become: true
+  lineinfile:
+    path: /etc/kibana/kibana.yml
+    line: 'elasticsearch.password: "password"'
