@@ -16,14 +16,14 @@
     source: "{{ hostvars[master]['ansible_default_ipv4']['address'] }}"
     cluster_name: my-application
     bootstrap_memory_lock: true
-    node_name: node-1
-    node_role: [ master, data]
+    #node_name: node-1
+    #node_role: [ master, data]
     data_path: var/lib
     log_path: var/log
     port: 9200
     individual: flase 
-    elastic_username: 
-    elastic_passsword: 
+    elastic_username: elastic
+    elastic_passsword: password
     list: 
     kibana_ip: 
   roles:
