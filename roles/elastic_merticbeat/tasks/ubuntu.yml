@@ -1,0 +1,52 @@
+---
+- name: Create List of nodes to be added into Cluster
+  set_fact: nodelist1={%for host in groups['master']%}"{{hostvars[host].ansible_default_ipv4.address}}:{{ port }}"{% if not loop.last %},{% endif %}{% endfor %}
+
+- debug: msg=[{{nodelist1}}]
+
+- name: Download the Metric Beat File
+  become: true
+  get_url:
+    url: https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-{{ elastic_version }}-amd64.deb
+    dest: /tmp
+    mode: 0440
+  when: elastic_flavor is defined and elastic_flavor == "pgdg"
+
+- name: Installing Metric Beat 
+  become: true
+  apt:
+    deb: /tmp/metricbeat-{{ elastic_version }}-amd64.deb
+
+- name: Update apt-get repo and cache
+  become: true
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+- name: Enabling Elastic Search Output
+  become: true
+  template:
+    src: metricbeat.yml.j2
+    dest: '/etc/metricbeat/metricbeat.yml'
+  when: individual == flase
+
+- name: Enabling Elastic Search Output
+  become: true
+  template:
+    src: metricbeat_individual.yml.j2
+    dest: '/etc/metricbeat/metricbeat.yml'
+  when: individual == true
+
+- name: Enabling the Metric Beat service
+  become: true
+  command: "systemctl enable metricbeat"
+
+- name: Starting the Metric Beat service
+  become: true
+  command: "systemctl start metricbeat"
+
+- name: Status the elastic Metric Beat
+  become: true
+  command: "systemctl status metricbeat"
+
+- name: Restarting the Metric Beat service
+  become: true
+  command: "systemctl restart metricbeat"

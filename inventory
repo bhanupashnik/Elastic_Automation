@@ -1,0 +1,2 @@
+[master]
+Elastic-Master node_role=[master,data] node_name=node-1 ansible_host=65.0.29.170

@@ -21,7 +21,11 @@
     data_path: var/lib
     log_path: var/log
     port: 9200
-
+    individual: flase 
+    elastic_username: 
+    elastic_passsword: 
+    list: 
+    kibana_ip: 
   roles:
     # This the roles where all the tasks mentioned for the installation. #
     - elastic_security

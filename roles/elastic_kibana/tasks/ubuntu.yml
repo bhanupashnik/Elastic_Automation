@@ -71,7 +71,6 @@
   command: "systemctl restart elasticsearch"
 
 - include_tasks: kibana.yml
-  when: node_name=node-1
 
 
 
