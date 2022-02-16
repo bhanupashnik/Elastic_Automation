@@ -25,28 +25,28 @@
   become: true
   template:
     src: heartbeat.yml.j2
-    dest: '/etc/metricbeat/hearbeat.yml'
+    dest: '/etc/hearbeat/hearbeat.yml'
   when: individual == "flase"
 
-- name: Enabling Elastic Search Output
+- name: Enabling heartbeat Search Output
   become: true
   template:
     src: heartbeat_individual.yml.j2
-    dest: '/etc/metricbeat/heartbeat.yml'
+    dest: '/etc/hearbeat/heartbeat.yml'
   when: individual == "true"
 
-- name: Enabling the Metric Beat service
+- name: Enabling the Heart Beat service
   become: true
-  command: "systemctl enable metricbeat"
+  command: "systemctl enable hearbeat"
 
-- name: Starting the Metric Beat service
+- name: Starting the Heart Beat service
   become: true
-  command: "systemctl start metricbeat"
+  command: "systemctl start hearbeat"
 
-- name: Status the elastic Metric Beat
+- name: Status of the Heart Beat
   become: true
-  command: "systemctl status metricbeat"
+  command: "systemctl status hearbeat"
 
-- name: Restarting the Metric Beat service
+- name: Restarting the Heart Beat service
   become: true
-  command: "systemctl restart metricbeat"
+  command: "systemctl restart hearbeat"
