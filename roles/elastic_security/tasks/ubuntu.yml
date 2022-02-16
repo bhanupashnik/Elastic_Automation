@@ -54,16 +54,16 @@
     insertafter: LimitFSIZE=infinity
   
 - include_tasks: kibana.yml
-  when: node_name=node-1
+  when: node_name=="node-1"
 
 - include_tasks: security_cert.yml
-  when: node_name=node-1
+  when: node_name=="node-1"
 
 - include_tasks: Chaning_paswords.yml
-  when: node_name=node-1
+  when: node_name=="node-1"
 
 - include_tasks: kibana_security.yml
-  when: node_name=node-1
+  when: node_name=="node-1"
 
 - name: Stopping the elastic service
   become: true
