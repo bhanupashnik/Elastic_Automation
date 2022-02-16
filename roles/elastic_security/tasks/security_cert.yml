@@ -89,9 +89,9 @@
   become: true
   command: "systemctl status elasticsearch"
 
-- name: Restarting the elastic service
-  become: true
-  command: "systemctl restart elasticsearch"
+# - name: Restarting the elastic service
+#   become: true
+#   command: "systemctl restart elasticsearch"
 
 - name: Enabling the Kibana service
   become: true
