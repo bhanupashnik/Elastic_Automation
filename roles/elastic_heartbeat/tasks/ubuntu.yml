@@ -31,8 +31,8 @@
 - name: Enabling Elastic Search Output
   become: true
   template:
-    src: metricbeat_individual.yml.j2
-    dest: '/etc/metricbeat/metricbeat.yml'
+    src: heartbeat_individual.yml.j2
+    dest: '/etc/metricbeat/heartbeat.yml'
   when: individual == "true"
 
 - name: Enabling the Metric Beat service
