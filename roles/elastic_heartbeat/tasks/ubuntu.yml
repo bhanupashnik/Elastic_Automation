@@ -26,14 +26,14 @@
   template:
     src: heartbeat.yml.j2
     dest: '/etc/metricbeat/hearbeat.yml'
-  when: individual == flase
+  when: individual == "flase"
 
 - name: Enabling Elastic Search Output
   become: true
   template:
     src: metricbeat_individual.yml.j2
     dest: '/etc/metricbeat/metricbeat.yml'
-  when: individual == true
+  when: individual == "true"
 
 - name: Enabling the Metric Beat service
   become: true
