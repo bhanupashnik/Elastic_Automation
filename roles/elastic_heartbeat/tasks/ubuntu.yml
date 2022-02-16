@@ -37,16 +37,16 @@
 
 - name: Enabling the Heart Beat service
   become: true
-  command: "systemctl enable heartbeat"
+  command: "systemctl enable heartbeat-elastic"
 
 - name: Starting the Heart Beat service
   become: true
-  command: "systemctl start heartbeat"
+  command: "systemctl start heartbeat-elastic"
 
 - name: Status of the Heart Beat
   become: true
-  command: "systemctl status heartbeat"
+  command: "systemctl status heartbeat-elastic"
 
 - name: Restarting the Heart Beat service
   become: true
-  command: "systemctl restart heartbeat"
+  command: "systemctl restart heartbeat-elastic"
