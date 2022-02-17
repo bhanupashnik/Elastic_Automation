@@ -4,7 +4,7 @@ node.roles: {{ node_role }}
 path.data: /{{ data_path }}/elasticsearch
 path.logs: /{{ log_path }}/elasticsearch
 bootstrap.memory_lock: {{ bootstrap_memory_lock }}
-network.host: {{ ansible_eth0.ipv4.address }}
+network.host: {{source}}
 http.port: {{port}}
-discovery.seed_hosts: [{{ nodelist }}]
-cluster.initial_master_nodes: [{{ nodelist1 }}]
+discovery.seed_hosts: [{{source}}]
+cluster.initial_master_nodes: [{{ node_name }}]
