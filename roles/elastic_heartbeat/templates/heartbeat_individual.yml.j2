@@ -15,7 +15,7 @@ heartbeat.config.monitors:
   # Directory + glob pattern to search for configuration files
   path: ${path.config}/monitors.d/*.yml
   # If enabled, heartbeat will periodically check the config.monitors path for changes
-  reload.enabled: false
+  reload.enabled: true
   # How often to check for changes
   reload.period: 5s
 
@@ -23,7 +23,7 @@ heartbeat.config.monitors:
 heartbeat.monitors:
 - type: http
   # Set enabled to true (or delete the following line) to enable this example monitor
-  enabled: false
+  enabled: true
   # ID used to uniquely identify this monitor in elasticsearch even if the config changes
   id: my-monitor
   # Human readable display name for this service in Uptime UI and elsewhere

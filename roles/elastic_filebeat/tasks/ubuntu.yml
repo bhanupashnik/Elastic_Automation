@@ -12,6 +12,12 @@
   apt:
     deb: /tmp/filebeat-{{ elastic_version }}-amd64.deb
 
+- name: Changing the filebeat config file
+  become: true
+  template:
+    src: filebeat.yml.j2
+    dest: '/etc/filebeat/filebeat.yml'
+
 - name: Update apt-get repo and cache
   become: true
   apt: update_cache=yes force_apt_get=yes cache_valid_time=3600

@@ -1,0 +1,3 @@
+---
+- include_tasks: kibana.yml
+  when: ansible_os_family == "Debian" and node_name == "node-1"

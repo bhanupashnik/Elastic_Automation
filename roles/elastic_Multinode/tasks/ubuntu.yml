@@ -1,8 +1,13 @@
 ---
 - name: Create List of nodes to be added into Cluster
-  set_fact: nodelist={%for host in groups['master']%}"{{hostvars[host].ansible_default_ipv4.address}}"{% if not loop.last %},{% endif %}{% endfor %}
+  set_fact: nodelist={%for host in groups['all']%}"{{hostvars[host].ansible_default_ipv4.address}}"{% if not loop.last %},{% endif %}{% endfor %}
 
 - debug: msg=[{{nodelist}}]
+
+- name: Create List of master nodes to be added into Cluster
+  set_fact: nodelist1={%for host in groups['master']%}"{{hostvars[host].ansible_default_ipv4.address}}"{% if not loop.last %},{% endif %}{% endfor %}
+
+- debug: msg=[{{nodelist1}}]
 # Downloading the Elastic File in deb
 - name: Download the Elastic File
   become: true

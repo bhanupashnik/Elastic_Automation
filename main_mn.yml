@@ -30,8 +30,4 @@
     path_of_logs:
   roles:
     # This the roles where all the tasks mentioned for the installation. #
-    - elastic_security
-    - elastic_merticbeat
-    - elastic_logstash
-    - elastic_heartbeat
-    - elastic_filebeat
+    - elastic_Multinode
