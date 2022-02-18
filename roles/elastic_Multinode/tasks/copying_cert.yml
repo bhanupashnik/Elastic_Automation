@@ -1,0 +1,35 @@
+---
+- name: Create data directory
+  become: true
+  file:
+    path: "/etc/elasticsearch/certs"
+    state: directory
+
+- name: Copy Remote-To-Remote (from serverA to serverB)
+  become: true
+  shell: scp -i {{ pem_path }} {{ansible_user}}@{{source}}:/etc/elasticsearch/certs/elastic-stack-ca.p12 {{ansible_user}}@{{'ansible_eth0.ipv4.address'}} /etc/elasticsearch/certs/
+
+- name: Change permissions
+  become: true
+  command: chmod 644 /etc/elasticsearch/certs/elastic-stack-ca.p12
+
+- name: Creating Password in a file
+  become: true
+  copy:
+    dest: "/tmp/password.tmp"
+    content: |
+      password
+
+- name: Storing Password in keyStore
+  become: true
+  shell: sudo cat /tmp/password.tmp | ./bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.keystore.secure_password 
+  args:
+    chdir: /usr/share/elasticsearch
+  # when: xpack_keystore['failed']== true
+
+- name: Storing Password in Trust Store
+  become: true
+  shell: sudo cat /tmp/password.tmp | ./bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.truststore.secure_password
+  args:
+    chdir: /usr/share/elasticsearch
+  # when: xpack_truststore['failed']== true

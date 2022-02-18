@@ -8,6 +8,11 @@
   set_fact: nodelist1={%for host in groups['master']%}"{{hostvars[host].ansible_default_ipv4.address}}"{% if not loop.last %},{% endif %}{% endfor %}
 
 - debug: msg=[{{nodelist1}}]
+
+- name: Create List of master nodes to be added into Cluster
+  set_fact: nodelist2={%for host in groups['master']%}"http://{{hostvars[host].ansible_default_ipv4.address}}:{{port}}"{% if not loop.last %},{% endif %}{% endfor %}
+
+- debug: msg=[{{nodelist2}}]
 # Downloading the Elastic File in deb
 - name: Download the Elastic File
   become: true
@@ -71,12 +76,30 @@
   become: true
   command: "systemctl status elasticsearch"
 
-- name: Restarting the elastic service
-  become: true
-  command: "systemctl restart elasticsearch"
-
 - include_tasks: kibana.yml
   when: node_name == "node-1"
 
+- name: Stopping the elastic service
+  become: true
+  command: "systemctl stop elasticsearch"
 
+- name: Stopping the elastic service
+  become: true
+  command: "systemctl stop kibana"
+
+- include_tasks: security_cert.yml
+  when: node_name=="node-1"
+
+- include_tasks: Chaning_paswords.yml
+  when: node_name=="node-1"
+
+- include_tasks: copying_cert.yml
+  when: node_name!="node-1"
+
+- include_tasks: kibana_security.yml
+  when: node_name=="node-1"
+
+- name: restart the Kibana service
+  become: true
+  command: "systemctl restart kibana"
 

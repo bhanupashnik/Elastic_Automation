@@ -1,0 +1,106 @@
+---
+
+- name: Changing the elastic config file
+  become: true
+  template:
+    src: elasticsearch_security.yml.j2
+    dest: '/etc/elasticsearch/elasticsearch.yml'
+
+- name: Create data directory
+  become: true
+  file:
+    path: "/etc/elasticsearch/certs"
+    state: directory
+
+- name: Creating Certificates
+  become: true
+  command: ./bin/elasticsearch-certutil cert --pass password --out elastic-stack-ca.p12
+  args:
+    chdir: /usr/share/elasticsearch
+
+- name: Creating Password in a file
+  become: true
+  copy:
+    dest: "/tmp/password.tmp"
+    content: |
+      password
+
+# - name: Checking xpack keystore is avaiable
+#   become: true
+#   shell: ./bin/elasticsearch-keystore list | grep xpack.security.transport.ssl.keystore.secure_password
+#   args:
+#     chdir: /usr/share/elasticsearch
+#   register: xpack_keystore
+
+# - debug: msg={{xpack_keystore['failed']}}
+
+# - name: Checking xpack keystore is avaiable
+#   become: true
+#   shell: ./bin/elasticsearch-keystore list | grep xpack.security.transport.ssl.truststore.secure_password
+#   args:
+#     chdir: /usr/share/elasticsearch
+#   register: xpack_truststore
+
+- name: Storing Password in keyStore
+  become: true
+  shell: sudo cat /tmp/password.tmp | ./bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.keystore.secure_password 
+  args:
+    chdir: /usr/share/elasticsearch
+  # when: xpack_keystore['failed']== true
+
+- name: Storing Password in Trust Store
+  become: true
+  shell: sudo cat /tmp/password.tmp | ./bin/elasticsearch-keystore add --stdin xpack.security.transport.ssl.truststore.secure_password
+  args:
+    chdir: /usr/share/elasticsearch
+  # when: xpack_truststore['failed']== true
+
+- name: Moving Cert file
+  become: true
+  command: cp /usr/share/elasticsearch/elastic-stack-ca.p12 /etc/elasticsearch/certs/
+
+- name: Change permissions
+  become: true
+  command: chmod 644 /etc/elasticsearch/certs/elastic-stack-ca.p12
+
+# - name: Checking bootstrap keystore is avaiable
+#   become: true
+#   shell: ./bin/elasticsearch-keystore list | grep bootstrap.password
+#   args:
+#     chdir: /usr/share/elasticsearch
+#   register: bootstrap_password
+
+- name: Setting bootstrap password for elastic user
+  become: true
+  shell: echo "demopassword" | sudo ./bin/elasticsearch-keystore add -x "bootstrap.password"
+  args:
+    chdir: /usr/share/elasticsearch
+  # when: bootstrap_password['failed']== true
+
+- name: Enabling the elastic service
+  become: true
+  command: "systemctl enable elasticsearch"
+
+- name: Starting the elastic service
+  become: true
+  command: "systemctl start elasticsearch"
+
+- name: Status the elastic service
+  become: true
+  command: "systemctl status elasticsearch"
+
+# - name: Restarting the elastic service
+#   become: true
+#   command: "systemctl restart elasticsearch"
+
+- name: Enabling the Kibana service
+  become: true
+  command: "systemctl enable kibana"
+
+- name: Starting the Kibana service
+  become: true
+  command: "systemctl start kibana"
+
+- name: Status the Kibana service
+  become: true
+  command: "systemctl status kibana"

@@ -1,0 +1,33 @@
+# Default host never remove this
+- hosts: all
+
+# This is for the installation of Elastic any version for all the hosts as per the inventory. #
+
+- hosts: all
+  become: true
+  vars:
+    # If you are installing offline please mention the postgresql_flavor as pgdg else not required. #
+    elastic_flavor: pgdg
+    # we need to change the version as per our requirement. #
+    elastic_version: 7.16.3
+    # This picks up the name of the master server and it is passed down to the source. #
+    master: '{{ groups.master[0] }}'
+    # Here Source get the Ip-Address of master for the Streaming Replication. #
+    source: "{{ hostvars[master]['ansible_default_ipv4']['address'] }}"
+    cluster_name: my-application
+    bootstrap_memory_lock: true
+    #node_name: node-1
+    #node_role: [ master, data]
+    data_path: var/lib
+    log_path: var/log
+    port: 9200
+    individual: flase 
+    elastic_username: elastic
+    elastic_passsword: password
+    list: 
+    kibana_ip: 
+    type_filebeat:
+    path_of_logs:
+  roles:
+    # This the roles where all the tasks mentioned for the installation. #
+    - elastic_Multinode
