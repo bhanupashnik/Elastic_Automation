@@ -1,3 +1,6 @@
 ---
 - include_tasks: ubuntu.yml
-  when: ansible_os_family == "Debian"
+  when: ansible_os_family == "Debian" and tls == "yes"
+
+- include_tasks: ubuntu_ntls.yml
+  when: ansible_os_family == "Debian" and tls == "no"
