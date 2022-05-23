@@ -14,3 +14,13 @@
 - name: Update apt-get repo and cache
   become: true
   apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+- name: Changing the apm-server config file
+  become: true
+  template:
+    src: apm-server.yml.j2
+    dest: '/etc/apm-server/apm-server.yml'
+
+- name: starting the apm-server service
+  become: true
+  command: "service apm-server start"

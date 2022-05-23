@@ -31,3 +31,10 @@
   roles:
     # This the roles where all the tasks mentioned for the installation. #
     - elastic_Multinode
+
+- hosts: all
+  become: true
+  vars:
+    target_node:
+  roles:
+    - elastic_op
